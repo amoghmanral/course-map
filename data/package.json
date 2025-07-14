@@ -1,0 +1,19 @@
+{
+  "name": "data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "normalize_courses.js",
+  "dependencies": {
+    "node": "^24.4.0",
+    "node-bin-setup": "^1.1.4",
+    "undici-types": "^7.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "normalize": "node normalize_courses.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

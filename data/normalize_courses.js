@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// Helper to normalize prerequisites
 function normalizePrerequisites(prereq) {
   if (!prereq || typeof prereq !== 'object') return null;
   const { type } = prereq;
@@ -33,7 +32,7 @@ function normalizePrerequisites(prereq) {
       return { type: 'or', courses };
     }).filter(Boolean);
     if (groups.length === 0) return null;
-    // If only one group and it's simple, flatten
+
     if (groups.length === 1 && groups[0].type === 'simple') {
       return { type: 'simple', courses: groups[0].courses };
     }
@@ -59,7 +58,6 @@ const normalizedCourses = courses.map(course => {
   const normPrereq = normalizePrerequisites(course.prerequisites);
   // Build reverse mapping
   if (normPrereq) {
-    // Helper to collect all course codes from prerequisites
     function collectCodes(pr) {
       if (!pr) return [];
       if (pr.type === 'simple' || pr.type === 'or' || pr.type === 'and') {
@@ -79,7 +77,6 @@ const normalizedCourses = courses.map(course => {
   return { ...course, prerequisites: normPrereq };
 });
 
-// Write output
 const output = { courses: normalizedCourses, reversePrereqs };
 fs.writeFileSync(outputPath, JSON.stringify(output, null, 2), 'utf-8');
 
