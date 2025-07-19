@@ -1,28 +1,18 @@
-import { useEffect, useState } from "react";
-
-type Prereq =
-  | { type: "simple"; courses: string[] }
-  | { type: "or" | "and"; courses: string[] }
-  | { type: "complex"; groups: { type: "or" | "simple"; courses: string[] }[] }
-  | null;
-
-type Course = {
-  id: string;
-  code: string;
-  title: string;
-  description: string;
-  prerequisites: Prereq;
-  // ...other fields
-};
-
-type Data = {
-  courses: Course[];
-  reversePrereqs: Record<string, string[]>;
-};
+import { useEffect, useState, useRef } from "react";
+import type { NodeMouseHandler } from "reactflow";
+import { CourseMap } from "./components/CourseMap";
+import { SearchBar } from "./components/SearchBar";
+import { CourseInfoBox } from "./components/CourseInfoBox";
+import type { Course, Data } from "./types";
+import "./App.css";
 
 function App() {
   const [data, setData] = useState<Data | null>(null);
   const [selected, setSelected] = useState<Course | null>(null);
+  const [centered, setCentered] = useState<Course | null>(null);
+  const [inputValue, setInputValue] = useState("");
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
 
   useEffect(() => {
     fetch("/courses.normalized.json")
@@ -30,42 +20,67 @@ function App() {
       .then(setData);
   }, []);
 
+
+  const onNodeClick: NodeMouseHandler = (event, node) => {
+    const course = data?.courses.find((c) => c.code === node.id);
+    if (course) {
+      setSelected(course);
+    }
+  };
+
+  // Selecting from search or recenter button recenters the graph
+  const handleCourseSelect = (course: Course) => {
+    setCentered(course);
+    setSelected(course);
+    // Zoom out after centering
+    setTimeout(() => {
+      if (reactFlowInstance) {
+        reactFlowInstance.fitView({ padding: 0.2, minZoom: 0.2, maxZoom: 1.5 });
+      }
+    }, 100);
+  };
+
+  // Initial graph, using COMPSCI 210 as example
+  useEffect(() => {
+    if (data && !centered) {
+      handleCourseSelect(data.courses[2217]);
+    }
+    // eslint-disable-next-line
+  }, [data]);
+
+  // Set reactFlowInstance on mount
+  const onInit = (_instance: any) => {
+    setReactFlowInstance(_instance);
+    // Set initial zoom out
+    setTimeout(() => {
+      _instance.fitView({ padding: 0.2, minZoom: 0.2, maxZoom: 1.5 });
+    }, 100);
+  };
+
   if (!data) return <div>Loading...</div>;
 
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ width: 400, borderRight: "1px solid #ccc", height: "100vh", overflow: "auto" }}>
-        <h2>Courses</h2>
-        <ul>
-          {data.courses.slice(0, 10000).map((course) => (
-            <li key={course.code}>
-              <button onClick={() => setSelected(course)} style={{ background: "none", border: "none", textAlign: "left", cursor: "pointer" }}>
-                {course.code}: {course.title}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div style={{ flex: 1, padding: 24 }}>
-        {selected ? (
-          <>
-            <h2>
-              {selected.code}: {selected.title}
-            </h2>
-            <p>{selected.description}</p>
-            <h3>Prerequisites</h3>
-            <pre>{JSON.stringify(selected.prerequisites, null, 2)}</pre>
-            <h3>Unlocks (outputs)</h3>
-            <ul>
-              {(data.reversePrereqs[selected.code] || []).map((code) => (
-                <li key={code}>{code}</li>
-              ))}
-            </ul>
-          </>
-        ) : (
-          <p>Select a course to see details.</p>
-        )}
-      </div>
+    <div className="app">
+      <SearchBar
+        data={data}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        onCourseSelect={handleCourseSelect}
+      />
+      
+      <CourseMap
+        data={data}
+        selected={centered}
+        onNodeClick={onNodeClick}
+        reactFlowWrapper={reactFlowWrapper}
+        onInit={onInit}
+      />
+
+      <CourseInfoBox
+        course={selected}
+        onClose={() => setSelected(null)}
+        onRecenter={handleCourseSelect}
+      />
     </div>
   );
 }

@@ -1,0 +1,51 @@
+.info-box {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  z-index: 10;
+  min-width: 320px;
+  max-width: 450px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 24px 20px 20px 20px;
+  border: 1.5px solid #eee;
+  color: black;
+}
+
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.course-title {
+  margin: 0 0 8px 0;
+  color: black;
+}
+
+.course-description {
+  font-size: 14px;
+  color: black;
+  margin: 0;
+}
+
+.recenter-button {
+  margin-top: 18px;
+  padding: 8px 16px;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: block;
+} 
