@@ -4,6 +4,7 @@ import { CourseMap } from "./components/CourseMap";
 import { SearchBar } from "./components/SearchBar";
 import { CourseInfoBox } from "./components/CourseInfoBox";
 import { GitHubButton } from "./components/GitHubButton";
+import { HelpButton } from "./components/HelpButton";
 import type { Course, Data } from "./types";
 import "./App.css";
 
@@ -62,6 +63,7 @@ function App() {
 
   return (
     <div className="app">
+      <HelpButton />
       <GitHubButton />
       <SearchBar
         data={data}

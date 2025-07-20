@@ -1,0 +1,153 @@
+.help-button {
+  position: fixed;
+  top: 20px;
+  right: 130px;
+  z-index: 1000;
+  background: #ffffff;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #24292e;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.help-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #d0d7de;
+  background: #f6f8fa;
+}
+
+.help-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.help-button svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.help-button span {
+  white-space: nowrap;
+}
+
+/* Popup overlay */
+.help-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Popup content */
+.help-popup {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 24px;
+}
+
+.help-popup-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.help-popup-close:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.help-popup h2 {
+  margin: 0 0 20px 0;
+  color: #24292e;
+  font-size: 24px;
+  font-weight: 600;
+  padding-right: 40px;
+}
+
+.help-content {
+  color: #24292e;
+  line-height: 1.6;
+}
+
+.help-content section {
+  margin-bottom: 24px;
+}
+
+.help-content h3 {
+  margin: 0 0 12px 0;
+  color: #24292e;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.help-content p {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+.help-content ul {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.help-content li {
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.help-content strong {
+  font-weight: 600;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .help-popup {
+    margin: 20px;
+    max-width: calc(100vw - 40px);
+    max-height: calc(100vh - 40px);
+  }
+  
+  .help-popup h2 {
+    font-size: 20px;
+  }
+  
+  .help-content h3 {
+    font-size: 16px;
+  }
+} 
