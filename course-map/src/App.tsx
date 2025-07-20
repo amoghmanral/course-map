@@ -3,6 +3,7 @@ import type { NodeMouseHandler } from "reactflow";
 import { CourseMap } from "./components/CourseMap";
 import { SearchBar } from "./components/SearchBar";
 import { CourseInfoBox } from "./components/CourseInfoBox";
+import { GitHubButton } from "./components/GitHubButton";
 import type { Course, Data } from "./types";
 import "./App.css";
 
@@ -61,6 +62,7 @@ function App() {
 
   return (
     <div className="app">
+      <GitHubButton />
       <SearchBar
         data={data}
         inputValue={inputValue}
