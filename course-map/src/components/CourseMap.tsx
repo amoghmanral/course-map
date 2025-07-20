@@ -8,6 +8,7 @@ import ReactFlow, {
 import type { Node, Edge, NodeMouseHandler } from "reactflow";
 import "reactflow/dist/style.css";
 import type { Course, Data } from "../types";
+import dagre from "dagre";
 
 interface CourseMapProps {
   data: Data;
@@ -31,6 +32,11 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
     }));
   }
 
+  // Parse comma-separated course strings into individual courses
+  function parseCourseString(courseString: string): string[] {
+    return courseString.split(',').map(course => course.trim());
+  }
+
   // Extract course codes and create virtual OR nodes
   const extractPrereqStructure = (prereq: any): { 
     courseNodes: Node[], 
@@ -45,6 +51,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
     const virtualEdges: Edge[] = [];
     let finalPrereqNodes: string[] = [];
     let virtualNodeCounter = 0;
+    const uniqueCourseIds = new Set<string>(); // Track unique courses
 
     if (prereq.type === "simple") {
       // For simple prerequisites, just return the course codes
@@ -60,7 +67,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
           position: { x: 0, y: -100 }, // Will be positioned later
           data: { label: "OR" },
           style: {
-            background: "none",
+            background: "#ffd93d",
             color: "black",
             fontWeight: "bold",
             fontSize: "12px",
@@ -68,34 +75,97 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
           },
         });
         
-        // Create individual course nodes and add edges to OR node
-        courseCodes.forEach((code: string) => {
-          courseNodes.push({
-            id: code,
-            type: "default",
-            position: { x: 0, y: -200 }, // Will be positioned later
-            data: { label: code },
-            style: {
-              background: "#4ecdc4",
-              color: "black",
-              fontSize: "12px",
-            },
-          });
+        // Process each course code - handle comma-separated subgroups
+        courseCodes.forEach((courseCode: string) => {
+          const individualCourses = parseCourseString(courseCode);
           
-          // Add dotted edge from course to OR node
-          virtualEdges.push({
-            id: `${code}-${orNodeId}`,
-            source: code,
-            target: orNodeId,
-            type: "smoothstep",
-            style: { stroke: "#666", strokeWidth: 1, strokeDasharray: "5,5" },
-          });
+          if (individualCourses.length === 1) {
+            // Single course
+            const courseId = individualCourses[0];
+            if (!uniqueCourseIds.has(courseId)) {
+              courseNodes.push({
+                id: courseId,
+                type: "default",
+                position: { x: 0, y: -300 }, // Will be positioned later
+                data: { label: courseId },
+                style: {
+                  background: "#4ecdc4",
+                  color: "black",
+                  fontSize: "12px",
+                },
+              });
+              uniqueCourseIds.add(courseId);
+            }
+            
+            // Add dotted edge from course to OR node
+            virtualEdges.push({
+              id: `${courseId}-${orNodeId}`,
+              source: courseId,
+              target: orNodeId,
+              type: "smoothstep",
+              style: { stroke: "#666", strokeWidth: 1, strokeDasharray: "5,5" },
+            });
+          } else {
+            // Multiple courses (AND relationship) - create AND node
+            const andNodeId = `and_${virtualNodeCounter++}`;
+            virtualNodes.push({
+              id: andNodeId,
+              type: "default",
+              position: { x: 0, y: -200 }, // Will be positioned later
+              data: { label: "AND" },
+              style: {
+                background: "#ff6b6b",
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "12px",
+                border: "2px solid #666",
+              },
+            });
+            
+            // Create nodes for each course in the AND group (only if not already created)
+            individualCourses.forEach((course: string) => {
+              if (!uniqueCourseIds.has(course)) {
+                courseNodes.push({
+                  id: course,
+                  type: "default",
+                  position: { x: 0, y: -300 }, // Will be positioned later
+                  data: { label: course },
+                  style: {
+                    background: "#4ecdc4",
+                    color: "black",
+                    fontSize: "12px",
+                  },
+                });
+                uniqueCourseIds.add(course);
+              }
+              
+              // Add solid edge from course to AND node
+              virtualEdges.push({
+                id: `${course}-${andNodeId}`,
+                source: course,
+                target: andNodeId,
+                type: "smoothstep",
+                style: { stroke: "#666", strokeWidth: 2 },
+              });
+            });
+            
+            // Add dotted edge from AND node to OR node
+            virtualEdges.push({
+              id: `${andNodeId}-${orNodeId}`,
+              source: andNodeId,
+              target: orNodeId,
+              type: "smoothstep",
+              style: { stroke: "#666", strokeWidth: 1, strokeDasharray: "5,5" },
+            });
+          }
         });
         
+        // The final prerequisite is the OR node
         finalPrereqNodes = [orNodeId];
       } else {
         // Single course, no OR node needed
-        finalPrereqNodes = courseCodes;
+        const individualCourses = parseCourseString(courseCodes[0]);
+        finalPrereqNodes = individualCourses;
       }
     } else if (prereq.type === "and") {
       finalPrereqNodes = prereq.courses || [];
@@ -103,12 +173,62 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
       const groups = prereq.groups || [];
       const groupNodes: string[] = [];
       
-      groups.forEach((group: any) => {
+      // Process each group separately
+      groups.forEach((group: any, groupIndex: number) => {
         const groupCodes = group.courses || [];
         if (groupCodes.length === 0) return;
         
         if (groupCodes.length === 1) {
-          groupNodes.push(groupCodes[0]);
+          // Single item in group - parse for comma-separated courses
+          const individualCourses = parseCourseString(groupCodes[0]);
+          if (individualCourses.length === 1) {
+            groupNodes.push(individualCourses[0]);
+          } else {
+            // Multiple courses in single item - create AND node
+            const andNodeId = `and_${virtualNodeCounter++}`;
+            virtualNodes.push({
+              id: andNodeId,
+              type: "default",
+              position: { x: 0, y: -200 }, // Will be positioned later
+              data: { label: "AND" },
+              style: {
+                background: "#ff6b6b",
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "12px",
+                border: "2px solid #666",
+              },
+            });
+            
+            // Create nodes for each course (only if not already created)
+            individualCourses.forEach((course: string) => {
+              if (!uniqueCourseIds.has(course)) {
+                courseNodes.push({
+                  id: course,
+                  type: "default",
+                  position: { x: 0, y: -300 }, // Will be positioned later
+                  data: { label: course },
+                  style: {
+                    background: "#4ecdc4",
+                    color: "black",
+                    fontSize: "12px",
+                  },
+                });
+                uniqueCourseIds.add(course);
+              }
+              
+              // Add solid edge from course to AND node
+              virtualEdges.push({
+                id: `${course}-${andNodeId}`,
+                source: course,
+                target: andNodeId,
+                type: "smoothstep",
+                style: { stroke: "#666", strokeWidth: 2 },
+              });
+            });
+            
+            groupNodes.push(andNodeId);
+          }
         } else if (group.type === "or") {
           // Create virtual OR node for this group
           const orNodeId = `or_${virtualNodeCounter++}`;
@@ -118,7 +238,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
             position: { x: 0, y: -100 }, // Will be positioned later
             data: { label: "OR" },
             style: {
-              background: "none",
+              background: "#ffd93d",
               color: "black",
               fontWeight: "bold",
               fontSize: "12px",
@@ -126,28 +246,89 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
             },
           });
           
-          // Create individual course nodes for this OR group
-          groupCodes.forEach((code: string) => {
-            courseNodes.push({
-              id: code,
-              type: "default",
-              position: { x: 0, y: -200 }, // Will be positioned later
-              data: { label: code },
-              style: {
-                background: "#4ecdc4",
-                color: "black",
-                fontSize: "12px",
-              },
-            });
+          // Process each course code in the OR group
+          groupCodes.forEach((courseCode: string) => {
+            const individualCourses = parseCourseString(courseCode);
             
-            // Add dotted edge from course to OR node
-            virtualEdges.push({
-              id: `${code}-${orNodeId}`,
-              source: code,
-              target: orNodeId,
-              type: "smoothstep",
-              style: { stroke: "#666", strokeWidth: 1, strokeDasharray: "5,5" },
-            });
+            if (individualCourses.length === 1) {
+              // Single course
+              const courseId = individualCourses[0];
+              if (!uniqueCourseIds.has(courseId)) {
+                courseNodes.push({
+                  id: courseId,
+                  type: "default",
+                  position: { x: 0, y: -300 }, // Will be positioned later
+                  data: { label: courseId },
+                  style: {
+                    background: "#4ecdc4",
+                    color: "black",
+                    fontSize: "12px",
+                  },
+                });
+                uniqueCourseIds.add(courseId);
+              }
+              
+              // Add dotted edge from course to OR node
+              virtualEdges.push({
+                id: `${courseId}-${orNodeId}`,
+                source: courseId,
+                target: orNodeId,
+                type: "smoothstep",
+                style: { stroke: "#666", strokeWidth: 1, strokeDasharray: "5,5" },
+              });
+            } else {
+              // Multiple courses (AND relationship) - create AND node
+              const andNodeId = `and_${virtualNodeCounter++}`;
+              virtualNodes.push({
+                id: andNodeId,
+                type: "default",
+                position: { x: 0, y: -200 }, // Will be positioned later
+                data: { label: "AND" },
+                style: {
+                  background: "#ff6b6b",
+                  color: "black",
+                  fontWeight: "bold",
+                  fontSize: "12px",
+                  border: "2px solid #666",
+                },
+              });
+              
+              // Create nodes for each course in the AND group (only if not already created)
+              individualCourses.forEach((course: string) => {
+                if (!uniqueCourseIds.has(course)) {
+                  courseNodes.push({
+                    id: course,
+                    type: "default",
+                    position: { x: 0, y: -300 }, // Will be positioned later
+                    data: { label: course },
+                    style: {
+                      background: "#4ecdc4",
+                      color: "black",
+                      fontSize: "12px",
+                    },
+                  });
+                  uniqueCourseIds.add(course);
+                }
+                
+                // Add solid edge from course to AND node
+                virtualEdges.push({
+                  id: `${course}-${andNodeId}`,
+                  source: course,
+                  target: andNodeId,
+                  type: "smoothstep",
+                  style: { stroke: "#666", strokeWidth: 2 },
+                });
+              });
+              
+              // Add dotted edge from AND node to OR node
+              virtualEdges.push({
+                id: `${andNodeId}-${orNodeId}`,
+                source: andNodeId,
+                target: orNodeId,
+                type: "smoothstep",
+                style: { stroke: "#666", strokeWidth: 1, strokeDasharray: "5,5" },
+              });
+            }
           });
           
           groupNodes.push(orNodeId);
@@ -161,6 +342,36 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
 
     return { courseNodes, virtualNodes, virtualEdges, finalPrereqNodes };
   };
+
+  // Helper to layout nodes using dagre
+  function layoutWithDagre(nodes: Node[], edges: Edge[]): Node[] {
+    const dagreGraph = new dagre.graphlib.Graph();
+    dagreGraph.setDefaultEdgeLabel(() => ({}));
+    dagreGraph.setGraph({ rankdir: "TB", nodesep: 40, ranksep: 80 });
+
+    // Set nodes in dagre
+    nodes.forEach((node) => {
+      dagreGraph.setNode(node.id, { width: 120, height: 50 });
+    });
+    // Set edges in dagre
+    edges.forEach((edge) => {
+      dagreGraph.setEdge(edge.source, edge.target);
+    });
+
+    dagre.layout(dagreGraph);
+
+    // Update node positions
+    return nodes.map((node) => {
+      const dagreNode = dagreGraph.node(node.id);
+      return {
+        ...node,
+        position: {
+          x: dagreNode ? dagreNode.x : node.position.x,
+          y: dagreNode ? dagreNode.y : node.position.y,
+        },
+      };
+    });
+  }
 
   const generateGraph = useCallback(
     (course: Course) => {
@@ -203,7 +414,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
         newEdges.push(...virtualEdges);
         
         // Position all final prerequisite nodes (OR nodes and direct prerequisites)
-        const finalPrereqPositions = rowLayout(finalPrereqNodes.length, -200);
+        const finalPrereqPositions = rowLayout(finalPrereqNodes.length, -50);
         
         finalPrereqNodes.forEach((nodeId, index) => {
           // Update position of existing nodes (OR nodes or direct prerequisites)
@@ -239,9 +450,27 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
         // Position individual course nodes that feed into OR nodes
         const individualCourseNodes = courseNodes.filter(node => !finalPrereqNodes.includes(node.id));
         if (individualCourseNodes.length > 0) {
-          const individualPositions = rowLayout(individualCourseNodes.length, -300);
+          const individualPositions = rowLayout(individualCourseNodes.length, -250);
           individualCourseNodes.forEach((node, index) => {
             node.position = individualPositions[index];
+          });
+        }
+        
+        // Position AND nodes that feed into OR nodes
+        const andNodes = virtualNodes.filter(node => node.id.startsWith('and_'));
+        if (andNodes.length > 0) {
+          const andPositions = rowLayout(andNodes.length, -150);
+          andNodes.forEach((node, index) => {
+            node.position = andPositions[index];
+          });
+        }
+        
+        // Position OR nodes
+        const orNodes = virtualNodes.filter(node => node.id.startsWith('or_'));
+        if (orNodes.length > 0) {
+          const orPositions = rowLayout(orNodes.length, -50);
+          orNodes.forEach((node, index) => {
+            node.position = orPositions[index];
           });
         }
       }
@@ -273,7 +502,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
         });
       });
 
-      setNodes(newNodes);
+      setNodes(layoutWithDagre(newNodes, newEdges));
       setEdges(newEdges);
     },
     [data, setNodes, setEdges]
