@@ -23,12 +23,23 @@ export function CourseInfoBox({ course, onClose, onRecenter }: CourseInfoBoxProp
         {course.code}: {course.title}
       </h3>
       <p className="course-description">{course.description}</p>
-      <button
-        onClick={() => onRecenter(course)}
-        className="recenter-button"
-      >
-        Recenter Graph
-      </button>
+      <div style={{ display: "flex", gap: "10px", marginTop: "18px" }}>
+        <button
+          onClick={() => onRecenter(course)}
+          className="info-box-button"
+        >
+          Recenter Graph
+        </button>
+        <button
+          className="info-box-button"
+          onClick={() => {
+            const query = `Duke ${course.code}: ${course.title}`;
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank', 'noopener,noreferrer');
+          }}
+        >
+          Google Search
+        </button>
+      </div>
     </div>
   );
 } 
