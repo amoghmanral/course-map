@@ -28,7 +28,7 @@ export function CourseInfoBox({ course, onClose, onRecenter }: CourseInfoBoxProp
           onClick={() => onRecenter(course)}
           className="info-box-button"
         >
-          Recenter Graph
+          Recenter map on this course
         </button>
         <button
           className="info-box-button"
