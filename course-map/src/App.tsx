@@ -6,6 +6,11 @@ import type { Course, Data } from "./types";
 import "./App.css";
 import { Header } from "./components/Header";
 
+function isMobile() {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth <= 600;
+}
+
 function App() {
   const [data, setData] = useState<Data | null>(null);
   const [selected, setSelected] = useState<Course | null>(null);
@@ -24,14 +29,16 @@ function App() {
   const onNodeClick: NodeMouseHandler = (_, node) => {
     const course = data?.courses.find((c) => c.code === node.id);
     if (course) {
-      setSelected(course);
+      handleCourseSelect(course, true);
     }
   };
 
   // Selecting from search or recenter button recenters the graph
-  const handleCourseSelect = (course: Course) => {
+  const handleCourseSelect = (course: Course, fromUserAction = false) => {
     setCentered(course);
-    setSelected(course);
+    if (!isMobile() || fromUserAction) {
+      setSelected(course);
+    }
     // Zoom out after centering
     setTimeout(() => {
       if (reactFlowInstance) {
@@ -65,7 +72,7 @@ function App() {
         data={data}
         inputValue={inputValue}
         setInputValue={setInputValue}
-        onCourseSelect={handleCourseSelect}
+        onCourseSelect={(course) => handleCourseSelect(course, true)}
       />
       
       <CourseMap

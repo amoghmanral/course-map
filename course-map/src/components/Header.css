@@ -30,4 +30,30 @@
   gap: 12px;
   margin-top: 20px;
   margin-right: 24px;
+}
+
+@media (max-width: 600px) {
+  .invisible-header {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100vw;
+    height: auto;
+    padding: 0;
+  }
+  .header-left, .header-right {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    margin: 0 0 8px 0;
+  }
+  .header-left {
+    margin: 16px 8px 0 8px;
+    min-width: 0;
+  }
+  .header-right {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 8px 8px 8px;
+    justify-content: flex-start;
+  }
 } 
