@@ -41,7 +41,8 @@ export const DisclaimerButton: React.FC = () => {
             <h2>Disclaimer</h2>
             <div className="disclaimer-content">
               <p>
-                This course map is based on Duke University's publicly available curriculum data, and is meant for informational purposes only. While every effort has been made to ensure accuracy, there may be errors or omissions. Please consult official university resources and/or academic advisors for authoritative and up-to-date information.
+                This course map is based on Duke University's publicly available curriculum data, and is meant for informational purposes 
+                only. This is not an official resource. While every effort has been made to ensure accuracy, there may be errors or omissions. Please consult  university and department websites or academic advisors for authoritative and up-to-date information.
               </p>
             </div>
           </div>
