@@ -29,7 +29,7 @@ function App() {
   const onNodeClick: NodeMouseHandler = (_, node) => {
     const course = data?.courses.find((c) => c.code === node.id);
     if (course) {
-      handleCourseSelect(course, true);
+      setSelected(course);
     }
   };
 
@@ -86,7 +86,7 @@ function App() {
       <CourseInfoBox
         course={selected}
         onClose={() => setSelected(null)}
-        onRecenter={handleCourseSelect}
+        onRecenter={(course) => handleCourseSelect(course, true)}
       />
     </div>
   );
