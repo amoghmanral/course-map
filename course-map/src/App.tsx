@@ -5,6 +5,7 @@ import { CourseInfoBox } from "./components/CourseInfoBox";
 import type { Course, Data } from "./types";
 import "./App.css";
 import { Header } from "./components/Header";
+import LoadingScreen from "./components/LoadingScreen";
 
 function isMobile() {
   if (typeof window === 'undefined') return false;
@@ -64,7 +65,7 @@ function App() {
     }, 100);
   };
 
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <LoadingScreen />;
 
   return (
     <div className="app">
