@@ -72,6 +72,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
             fontWeight: "bold",
             fontSize: "12px",
             border: "2px dashed #666",
+            cursor: "pointer",
           },
         });
         
@@ -92,6 +93,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
                   background: "#4ecdc4",
                   color: "black",
                   fontSize: "12px",
+                  cursor: "pointer",
                 },
               });
               uniqueCourseIds.add(courseId);
@@ -119,6 +121,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
                 fontWeight: "bold",
                 fontSize: "12px",
                 border: "2px solid #666",
+                cursor: "pointer",
               },
             });
             
@@ -134,6 +137,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
                     background: "#4ecdc4",
                     color: "black",
                     fontSize: "12px",
+                    cursor: "pointer",
                   },
                 });
                 uniqueCourseIds.add(course);
@@ -197,6 +201,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
                 fontWeight: "bold",
                 fontSize: "12px",
                 border: "2px solid #666",
+                cursor: "pointer",
               },
             });
             
@@ -212,6 +217,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
                     background: "#4ecdc4",
                     color: "black",
                     fontSize: "12px",
+                    cursor: "pointer",
                   },
                 });
                 uniqueCourseIds.add(course);
@@ -243,6 +249,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
               fontWeight: "bold",
               fontSize: "12px",
               border: "2px dashed #666",
+              cursor: "pointer",
             },
           });
           
@@ -263,6 +270,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
                     background: "#4ecdc4",
                     color: "black",
                     fontSize: "12px",
+                    cursor: "pointer",
                   },
                 });
                 uniqueCourseIds.add(courseId);
@@ -290,6 +298,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
                   fontWeight: "bold",
                   fontSize: "12px",
                   border: "2px solid #666",
+                  cursor: "pointer",
                 },
               });
               
@@ -305,6 +314,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
                       background: "#4ecdc4",
                       color: "black",
                       fontSize: "12px",
+                      cursor: "pointer",
                     },
                   });
                   uniqueCourseIds.add(course);
@@ -390,6 +400,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
           color: "black",
           fontWeight: "bold",
           fontSize: "14px",
+          cursor: "pointer",
         },
       });
       nodeIds.add(course.code);
@@ -432,6 +443,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
                 background: "#4ecdc4",
                 color: "black",
                 fontSize: "12px",
+                cursor: "pointer",
               },
             });
             nodeIds.add(nodeId);
@@ -489,6 +501,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
               background: "#45b7d1",
               color: "black",
               fontSize: "12px",
+              cursor: "pointer",
             },
           });
           nodeIds.add(code);
