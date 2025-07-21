@@ -24,6 +24,7 @@ export const Header: React.FC<HeaderProps> = ({ data, inputValue, setInputValue,
           onCourseSelect={onCourseSelect}
         />
       </div>
+      <div className="header-title">Course Map v1.0</div>
       <div className="header-right">
         <HelpButton />
         <DisclaimerButton />

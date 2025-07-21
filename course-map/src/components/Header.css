@@ -1,35 +1,51 @@
 .invisible-header {
   position: absolute;
-  top: 0;
+  top: 20px;
   left: 0;
   width: 100vw;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   pointer-events: none;
   z-index: 100;
   background: transparent;
-  padding: 0;
-  height: 0;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.header-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1;
+  color: #24292e;
+  pointer-events: none;
 }
 
 .header-left, .header-right {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   pointer-events: auto;
 }
 
 .header-left {
   flex: 1;
   min-width: 320px;
-  margin-top: 20px;
-  margin-left: 24px;
 }
 
 .header-right {
   gap: 12px;
-  margin-top: 20px;
-  margin-right: 24px;
+}
+
+/* Override default absolute positioning for search bar when inside header */
+.header-left .search-container {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
 }
 
 @media (max-width: 600px) {
@@ -37,20 +53,23 @@
     flex-direction: column;
     align-items: stretch;
     width: 100vw;
-    height: auto;
-    padding: 0;
+    padding: 8px;
   }
+
+  .header-title {
+    display: none;
+  }
+
   .header-left {
-    margin: 0;
-    padding: 0;
     min-width: 0;
     width: 100%;
+    margin-bottom: 8px;
   }
+
   .header-right {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 0;
     justify-content: center;
     width: 100%;
   }
