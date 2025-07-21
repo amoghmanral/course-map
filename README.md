@@ -26,7 +26,7 @@ https://github.com/user-attachments/assets/d5dd83d6-73d0-4d3f-9777-bf31ca359ea8
 - Using the API, I was able to compile information about all courses into a single json file.
 - I then used an AI agent to parse the text-based prerequisite information into a structured data model. Example:
 
-```
+```json
 {
   "id": "027881",
   "code": "COMPSCI 210D",
