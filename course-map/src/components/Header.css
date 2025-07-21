@@ -41,9 +41,8 @@
   gap: 12px;
 }
 
-/* Override default absolute positioning for search bar when inside header */
 .header-left .search-container {
-  position: static !important;
+  position: relative !important;
   top: auto !important;
   left: auto !important;
 }
