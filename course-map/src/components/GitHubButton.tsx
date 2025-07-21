@@ -1,5 +1,5 @@
 import React from 'react';
-import './GitHubButton.css';
+import './Button.css';
 
 interface GitHubButtonProps {
   repositoryUrl?: string;
@@ -14,7 +14,7 @@ export const GitHubButton: React.FC<GitHubButtonProps> = ({
 
   return (
     <button 
-      className="github-button" 
+      className="header-button" 
       onClick={handleClick}
       aria-label="View project on GitHub"
       title="View project on GitHub"

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Button.css';
 import './HelpButton.css';
 
 export const HelpButton: React.FC = () => {
@@ -15,7 +16,7 @@ export const HelpButton: React.FC = () => {
   return (
     <>
       <button 
-        className="help-button" 
+        className="header-button" 
         onClick={handleClick}
         aria-label="Help"
         title="Help"

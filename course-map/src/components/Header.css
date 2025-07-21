@@ -1,0 +1,33 @@
+.invisible-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: none;
+  z-index: 100;
+  background: transparent;
+  padding: 0;
+  height: 0;
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: flex-start;
+  pointer-events: auto;
+}
+
+.header-left {
+  flex: 1;
+  min-width: 320px;
+  margin-top: 20px;
+  margin-left: 24px;
+}
+
+.header-right {
+  gap: 12px;
+  margin-top: 20px;
+  margin-right: 24px;
+} 

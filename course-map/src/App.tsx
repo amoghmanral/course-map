@@ -1,12 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import type { NodeMouseHandler } from "reactflow";
 import { CourseMap } from "./components/CourseMap";
-import { SearchBar } from "./components/SearchBar";
 import { CourseInfoBox } from "./components/CourseInfoBox";
-import { GitHubButton } from "./components/GitHubButton";
-import { HelpButton } from "./components/HelpButton";
 import type { Course, Data } from "./types";
 import "./App.css";
+import { Header } from "./components/Header";
 
 function App() {
   const [data, setData] = useState<Data | null>(null);
@@ -63,9 +61,7 @@ function App() {
 
   return (
     <div className="app">
-      <HelpButton />
-      <GitHubButton />
-      <SearchBar
+      <Header
         data={data}
         inputValue={inputValue}
         setInputValue={setInputValue}
