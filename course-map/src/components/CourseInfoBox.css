@@ -3,7 +3,6 @@
   left: 24px;
   bottom: 24px;
   z-index: 10;
-  min-width: 320px;
   max-width: 450px;
   background: #fff;
   border-radius: 16px;
@@ -16,18 +15,21 @@
 
 .close-button {
   position: absolute;
-  top: 10px;
+  top: 12px;
   right: 16px;
   background: none;
   border: none;
   font-size: 18px;
   color: #aaa;
   cursor: pointer;
+  z-index: 2;
 }
 
 .course-title {
   margin: 0 0 8px 0;
   color: black;
+  padding-right: 30px;
+  font-size: 15px;
 }
 
 .course-description {
