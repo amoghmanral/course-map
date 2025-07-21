@@ -43,13 +43,24 @@ export function SearchBar({ data, inputValue, setInputValue, onCourseSelect }: S
 
   return (
     <div className="search-container">
-      <div>
-        <input
-          {...getInputProps()}
-          placeholder="Search for a course..."
-          className="search-input"
-        />
-      </div>
+      <input
+        {...getInputProps()}
+        placeholder="Search for a course..."
+        className={`search-input${isOpen ? ' dropdown-open' : ''}`}
+      />
+      {inputValue && (
+        <button
+          type="button"
+          className="search-clear-btn"
+          onClick={() => setInputValue("")}
+          aria-label="Clear search"
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="5" y1="5" x2="13" y2="13" stroke="#888" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="13" y1="5" x2="5" y2="13" stroke="#888" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        </button>
+      )}
       <ul {...getMenuProps()} className={`search-dropdown ${isOpen ? 'open' : ''}`}>
         {isOpen &&
           courseOptions
@@ -69,4 +80,4 @@ export function SearchBar({ data, inputValue, setInputValue, onCourseSelect }: S
       </ul>
     </div>
   );
-} 
+}
