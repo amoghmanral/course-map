@@ -1,6 +1,6 @@
 .search-container {
   position: absolute;
-  top: 24px;
+  top: 20px;
   left: 24px;
   z-index: 10;
   min-width: 320px;
