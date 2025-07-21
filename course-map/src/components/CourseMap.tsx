@@ -178,7 +178,7 @@ export function CourseMap({ data, selected, onNodeClick, reactFlowWrapper, onIni
       const groupNodes: string[] = [];
       
       // Process each group separately
-      groups.forEach((group: any, groupIndex: number) => {
+      groups.forEach((group: any) => {
         const groupCodes = group.courses || [];
         if (groupCodes.length === 0) return;
         

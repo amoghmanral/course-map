@@ -21,7 +21,7 @@ function App() {
   }, []);
 
 
-  const onNodeClick: NodeMouseHandler = (event, node) => {
+  const onNodeClick: NodeMouseHandler = (_, node) => {
     const course = data?.courses.find((c) => c.code === node.id);
     if (course) {
       setSelected(course);
