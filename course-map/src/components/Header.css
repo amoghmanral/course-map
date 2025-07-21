@@ -40,20 +40,18 @@
     height: auto;
     padding: 0;
   }
-  .header-left, .header-right {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    margin: 0 0 8px 0;
-  }
   .header-left {
-    margin: 16px 8px 0 8px;
+    margin: 0;
+    padding: 0;
     min-width: 0;
+    width: 100%;
   }
   .header-right {
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 0 8px 8px 8px;
-    justify-content: flex-start;
+    margin: 0;
+    justify-content: center;
+    width: 100%;
   }
 } 

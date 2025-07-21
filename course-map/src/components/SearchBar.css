@@ -49,4 +49,18 @@
 
 .search-item.highlighted {
   background: #f0f0f0;
+}
+
+@media (max-width: 600px) {
+  .search-container {
+    position: static;
+    width: 100vw;
+    min-width: 0;
+    padding: 8px 8px 8px 8px;
+    box-sizing: border-box;
+  }
+  .search-input {
+    width: 100%;
+    box-sizing: border-box;
+  }
 } 

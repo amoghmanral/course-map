@@ -40,3 +40,9 @@
 .header-button span {
   white-space: nowrap;
 } 
+
+@media (max-width: 600px) {
+    .header-button {
+        width: 110px;
+    }
+} 

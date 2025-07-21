@@ -52,6 +52,7 @@
 
 @media (max-width: 600px) {
   .info-box {
+    position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
@@ -61,5 +62,17 @@
     box-shadow: 0 -2px 24px rgba(0,0,0,0.12);
     padding: 20px 8px 16px 8px;
     z-index: 1000;
+    max-height: 45vh;
+    overflow-y: auto;
+  }
+  .course-title {
+    font-size: 16px;
+  }
+  .course-description {
+    font-size: 12px;
+  }
+  .info-box-button {
+    font-size: 12px;
+    padding: 6px 12px;
   }
 } 
