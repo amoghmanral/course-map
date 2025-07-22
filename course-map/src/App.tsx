@@ -49,7 +49,7 @@ function App() {
     // Zoom out after centering
     setTimeout(() => {
       if (reactFlowInstance) {
-        reactFlowInstance.fitView({ padding: 0.2, minZoom: 0.2, maxZoom: 1.5 });
+        reactFlowInstance.fitView({ padding: 0.8, minZoom: 0.2, maxZoom: 1.5 });
       }
     }, 100);
   };
@@ -67,7 +67,7 @@ function App() {
     setReactFlowInstance(_instance);
     // Set initial zoom out
     setTimeout(() => {
-      _instance.fitView({ padding: 0.2, minZoom: 0.2, maxZoom: 1.5 });
+      _instance.fitView({ padding: 0.8, minZoom: 0.2, maxZoom: 1.5 });
     }, 100);
   };
 
