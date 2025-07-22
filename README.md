@@ -2,7 +2,7 @@
 
 A visual, interactive map of Duke University's course prerequisites and curriculum structure.
 
-Unlike most course planners, this tool not only shows prerequisites (inputs) for each course, but also the *outputs*—all the courses that are unlocked by taking a given course. This makes it easy to plan forward and see the impact of each course on your academic path.
+Unlike most course planners, this tool not only shows prerequisites (inputs) for each course, but also the *outputs*—advanced courses that have the selected course as a prerequisite. This makes it easy to plan forward and see the impact of each course on your academic path.
 
 
 

@@ -48,7 +48,7 @@ export const HelpButton: React.FC = () => {
               
               <section>
                 <h3>🔗 Understanding Connections</h3>
-                <p>After selecting a course, the map will show the course's <strong>inputs</strong> (prerequisites) and <strong>outputs</strong> (courses that are unlocked by the selected course).</p>
+                <p>After selecting a course, the map will show the course's <strong>inputs</strong> (prerequisites) and <strong>outputs</strong> (advanced courses that have the selected course as a prerequisite). This makes it easy to plan forward and see the impact of each course on your academic path!</p>
               </section>
 
               <section>

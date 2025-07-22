@@ -20,6 +20,7 @@ function App() {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const [showNudge, setShowNudge] = useState(false);
+  const nudgeDismissedRef = useRef(false);
 
   useEffect(() => {
     fetch("/courses.normalized.json")
@@ -28,7 +29,11 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowNudge(true), 30000);
+    const timer = setTimeout(() => {
+      if (!nudgeDismissedRef.current) {
+        setShowNudge(true);
+      }
+    }, 30000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -81,7 +86,10 @@ function App() {
         setInputValue={setInputValue}
         onCourseSelect={(course) => handleCourseSelect(course, true)}
         showNudge={showNudge}
-        onCloseNudge={() => setShowNudge(false)}
+        onCloseNudge={() => {
+          setShowNudge(false);
+          nudgeDismissedRef.current = true;
+        }}
       />
       
       <CourseMap
