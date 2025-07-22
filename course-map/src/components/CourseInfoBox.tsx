@@ -23,7 +23,7 @@ export function CourseInfoBox({ course, onClose, onRecenter }: CourseInfoBoxProp
         {course.code}: {course.title}
       </h3>
       <p className="course-description">{course.description}</p>
-      <div style={{ display: "flex", gap: "10px", marginTop: "18px" }}>
+      <div style={{ display: "flex", gap: "10px" }}>
         <button
           onClick={() => onRecenter(course)}
           className="info-box-button"

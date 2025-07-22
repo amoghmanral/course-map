@@ -1,0 +1,66 @@
+.header-right {
+  position: relative;
+}
+
+.github-nudge-box {
+  background: #fffbe6;
+  border: 1.5px solid #ffe58f;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  padding: 14px 16px 8px 14px;
+  min-width: 180px;
+  max-width: 240px;
+  font-size: 15px;
+  color: #8a6d1a;
+  position: absolute;
+  left: 100%;
+  top: 100%;
+  transform: translate(-100%, 12px); /* 12px gap below button */
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 2001;
+}
+
+.github-nudge-message {
+  margin-bottom: 4px;
+}
+
+.github-nudge-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  background: none;
+  border: none;
+  font-size: 15px;
+  color: #bfa100;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.github-nudge-arrow {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -12px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 12px solid #fffbe6;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.06));
+}
+
+.github-nudge-arrow-up {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -12px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid #fffbe6;
+  filter: drop-shadow(0 -2px 2px rgba(0,0,0,0.06));
+}
